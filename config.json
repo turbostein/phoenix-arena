@@ -1,0 +1,12 @@
+{
+  "providers": {
+    "anthropic": {
+      "enabled": true
+    },
+    "ollama": {
+      "enabled": false,
+      "endpoint": "https://your-runpod-url.proxy.runpod.net"
+    }
+  },
+  "defaultModel": "claude-sonnet-4-20250514"
+}
