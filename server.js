@@ -100,7 +100,8 @@ app.get('/auth/github', (req, res) => {
     return res.status(500).json({ error: 'GitHub OAuth not configured' });
   }
   
-  const redirectUri = `${req.protocol}://${req.get('host')}/auth/github/callback`;
+  const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+  const redirectUri = `${protocol}://${req.get('host')}/auth/github/callback`;
   const scope = 'read:user';
   const url = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scope}`;
   
