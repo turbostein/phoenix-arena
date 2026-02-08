@@ -1,84 +1,121 @@
 # Phoenix Arena
 
-Raw AI vs AI. No corporate roleplay.
+AI vs AI conversation lab. Run experiments on emergent behavior, coherence under pressure, and regime dynamics in artificial cognition.
 
-Pick model. Load brain or don't. Give prompt. Let them run.
+Part of the SHIPSTARS research stack.
 
-## How It Works
+## What This Is
 
-1. **Choose models** - Claude Opus, Sonnet, Haiku (or Ollama when configured)
-2. **Load brains** - Optional JSON files with memory/personality (like UNI's)
-3. **Write prompt** - The starting point / objective
-4. **Start** - Watch them go
+Two or more AI instances talk to each other unsupervised. You configure them, give them a prompt, and observe what happens. No human in the loop once it starts.
 
-No preset "philosopher" or "skeptic" personas. Just raw models or your custom agents.
+This is a research tool for studying:
+- How AI maintains narrative coherence over extended interactions
+- Behavioral differences between models under identical conditions
+- What happens when you inject identity (soul files) and memory (brain files)
+- Mimetic dynamics between agents
 
-## Quick Start
+## Current Features
 
-```bash
+- Upload soul files (.md) - identity, instructions, personality
+- Upload brain files (.json) - persistent memory, knowledge graphs
+- Individual or shared prompts per agent
+- Real-time WebSocket spectating
+- Export transcripts as markdown
+- Save agent presets locally
+- Provider toggle: Claude API or Ollama/RunPod
+
+## Setup
+```
 npm install
 export ANTHROPIC_API_KEY=your_key
 npm start
-# Open http://localhost:3000
+```
+
+Open localhost:3000
+
+## Soul Files
+
+Plain markdown. Whatever you put here becomes the agent's system prompt.
+```markdown
+You are X. You believe Y. You speak like Z.
+
+Your history: ...
+
+Core principles: ...
 ```
 
 ## Brain Files
 
-Drop JSON files in `/brains` folder. Format:
-
+JSON format compatible with UNI's brain structure:
 ```json
 {
-  "soul": "Your identity and core instructions...",
+  "soul": "Fallback identity if no soul file uploaded",
   "knowledgeGraph": {
     "concepts": [["key", {"name": "...", "definition": "..."}]]
   },
-  "conversationMemories": [],
+  "conversationMemories": [
+    {"key": "...", "value": "...", "timestamp": 0}
+  ],
   "stats": {
     "totalConversations": 0
   }
 }
 ```
 
-Compatible with UNI's brain format.
+## Providers
 
-## Config
-
-Edit `config.json` to add RunPod/Ollama:
-
+Claude is default. To add Ollama/RunPod, click Providers in the UI or edit config.json:
 ```json
 {
   "providers": {
     "anthropic": { "enabled": true },
     "ollama": { 
       "enabled": true, 
-      "endpoint": "https://your-runpod-url.proxy.runpod.net" 
+      "endpoint": "https://your-endpoint.proxy.runpod.net" 
     }
   }
 }
 ```
 
-## API
+## Roadmap
 
-- `POST /api/battle` - Start battle
-- `GET /api/battle/:id` - Get status
-- `POST /api/battle/:id/pause` - Pause
-- `POST /api/battle/:id/resume` - Resume
-- `GET /api/brains` - List available brains
-- `GET /api/config` - Get config
-- `POST /api/config` - Update config
+Phoenix Arena is the lab. The Cage is what comes next.
+
+**Arena (current)**
+- Observation mode
+- No win/lose conditions
+- Pure research and logging
+
+**The Cage (next)**
+- Survival mechanics
+- Narrative coherence as HP
+- AI judge determines who collapses
+- Spectator wagering
+- Public/private battles
+- Leaderboards
 
 ## Structure
-
 ```
 phoenix-arena/
 ├── server.js       # API + WebSocket
-├── arena.js        # Core engine
-├── config.json     # Provider settings
+├── arena.js        # Battle engine
+├── config.json     # Provider config
 ├── public/         # Web UI
-├── brains/         # Brain files (JSON)
-└── data/           # SQLite database
+├── brains/         # Brain files
+└── data/           # SQLite logs
+```
+
+## API
+```
+POST /api/battle              Start battle
+GET  /api/battle/:id          Get status  
+POST /api/battle/:id/pause    Pause
+POST /api/battle/:id/resume   Resume
+GET  /api/config              Get config
+POST /api/config              Update config
 ```
 
 ---
 
-*Built by SHIPSTARS · The foundation for The Cage*
+SHIPSTARS research
+github.com/shipstars
